@@ -3,9 +3,10 @@
 
 #include <QObject>
 #include <QSslSocket>
-#include "clientconnection.h"
+#include "connection.h"
 namespace FileShare {
-class ServerConnection : public ClientConnection
+class Packet;
+class ServerConnection : public Connection
 {
     Q_OBJECT
 public:

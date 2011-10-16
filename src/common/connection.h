@@ -4,8 +4,8 @@
 
 #include <QObject>
 #include <QSslSocket>
-class Packet;
 namespace FileShare {
+class Packet;
 class Connection : public QObject
 {
     Q_OBJECT

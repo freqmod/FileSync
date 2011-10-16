@@ -5,6 +5,7 @@
 #include <QSslSocket>
 #include "clientconnection.h"
 namespace FileShare {
+class Packet;
 class ClientConnection : public QObject
 {
     Q_OBJECT
