@@ -1,0 +1,33 @@
+message Packet {
+  optional int32 id = 1;
+  optional bool ack = 2;
+  optional int64 extra_data_length = 4;
+  optional Connect connect=10;
+}
+message Connect{
+  optional string username=1;
+  optional string password=2;
+  optional string client_name=3;
+  optional bytes client_id=3;
+}
+
+message InitializeClient{
+  optional bytes client_id = 1;
+  repeated SharedObject = 2;
+}
+
+message SharedObject{
+  optional string path = 1;
+  optional bytes sha1sum = 2;
+  optional int64 modified = 3;
+  optional int64 created = 4;
+  optional int64 extra_data_offset = 5;
+}
+
+message Change{
+  optional string path = 1;
+  optional bytes sha1sum = 2;
+  optional int64 modified = 3;
+  optional int64 created = 4;
+  optional int64 extra_data_offset = 5;
+}
