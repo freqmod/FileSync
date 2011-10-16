@@ -2,6 +2,7 @@
 #define CLIENTCONNECTION_H
 
 #include <QObject>
+#include <QSslSocket>
 namespace FileShare {
 class ClientConnection : public QObject
 {
@@ -9,10 +10,13 @@ class ClientConnection : public QObject
 public:
     explicit ClientConnection(QObject *parent = 0);
 
+protected:
+    QByteArray currentBuffer;
+    QSslSocket socket;
 signals:
 
 public slots:
-
+    void readyRead();
 };
 }
 

@@ -1,27 +1,27 @@
+option optimize_for = SPEED;
 message Packet {
   optional int32 id = 1;
   optional bool ack = 2;
   optional int64 extra_data_length = 4;
+
   optional Connect connect=10;
+  optional InitializeClient initclient=11;
+
+  repeated Change changes=20;
+  repeated FileDataRequestResponse filedata=21;
+
 }
 message Connect{
   optional string username=1;
   optional string password=2;
   optional string client_name=3;
-  optional bytes client_id=3;
+  optional bytes client_id=4;
+  optional int32 protocol_version=5;
+  optional int64 last_updated = 6;
 }
 
 message InitializeClient{
   optional bytes client_id = 1;
-  repeated SharedObject = 2;
-}
-
-message SharedObject{
-  optional string path = 1;
-  optional bytes sha1sum = 2;
-  optional int64 modified = 3;
-  optional int64 created = 4;
-  optional int64 extra_data_offset = 5;
 }
 
 message Change{
@@ -29,5 +29,15 @@ message Change{
   optional bytes sha1sum = 2;
   optional int64 modified = 3;
   optional int64 created = 4;
-  optional int64 extra_data_offset = 5;
+  optional bool deleted = 5;
+  optional int64 extra_data_offset = 10;
+  optional int64 file_encoding = 11;
 }
+
+message FileDataRequestResponse{
+  optional string path = 1;
+  optional int32 lastid = 2;
+  optional int64 extra_data_offset = 10;
+  optional int64 request_encoding = 11;	
+}
+//FIXME: Rewrite protocol to support changesets
