@@ -1,13 +1,10 @@
-#include "clientconnection.h"
+#include "serverconnection.h"
 namespace FileShare {
-ClientConnection::ClientConnection(QObject *parent) :
+ServerConnection::ServerConnection(QObject *parent) :
     QObject(parent)
 {
 }
-void ClientConnection::readyRead(){
-
-}
-void ClientConnection::gotPacket(){
+void ServerConnection::gotPacket(){
 
 }
 }

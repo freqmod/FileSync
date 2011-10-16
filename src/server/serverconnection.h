@@ -1,14 +1,15 @@
-#ifndef CLIENTCONNECTION_H
-#define CLIENTCONNECTION_H
+#ifndef SERVERCONNECTION_H
+#define SERVERCONNECTION_H
 
 #include <QObject>
 #include <QSslSocket>
+#include "clientconnection.h"
 namespace FileShare {
-class ClientConnection : public QObject
+class ServerConnection : public ClientConnection
 {
     Q_OBJECT
 public:
-    explicit ClientConnection(QObject *parent = 0);
+    explicit ServerConnection(QObject *parent = 0);
 
 protected:
     QByteArray currentBuffer;
@@ -16,8 +17,9 @@ protected:
 signals:
 
 public slots:
-    void readyRead();
+    virtual void gotPacket(Packet *pkg);
+    virtual void gotExtraData(QByteArray data);
 };
 }
 
-#endif // CLIENTCONNECTION_H
+#endif // SERVERCONNECTION_H

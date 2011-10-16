@@ -4,10 +4,10 @@ ClientConnection::ClientConnection(QObject *parent) :
     QObject(parent)
 {
 }
-void ClientConnection::readyRead(){
+void ClientConnection::gotPacket(Packet *pkg){
 
 }
-void ClientConnection::gotPacket(){
-
+void ClientConnection::gotExtraData(QByteArray data){
 }
+
 }

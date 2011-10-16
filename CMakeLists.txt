@@ -1,8 +1,10 @@
 project(FileSync)
 cmake_minimum_required(VERSION 2.6)
 
-option("WANT_SERVER     "Build the server binary"           ON)
-option("WANT_CLIENT     "Build the server binary"           ON)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+include(QuasselMacros)
+option(WANT_SERVER     "Build the client binary"           ON)
+option(WANT_CLIENT     "Build the server binary"           ON)
 
 if(APPLE)
   option(DEPLOY        "Mac OS X only! Adds required libs to bundle resources and create a dmg. Note: requires Qt to be built with 10.4u SDK" OFF)
@@ -21,14 +23,12 @@ SET(QT_USE_QTCORE true)
 SET(QT_USE_QTNETWORK true)
 SET(QT_USE_QTSQL true)
 SET(QT_USE_QTGUI true)
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
 #include(MacroLibrary)
 include(FindQt4)
 include(FindProtobuf)
 include(${QT_USE_FILE})
-include(UsePkgConfig)
-
-
+#include(UsePkgConfig)
 
 if(PROTOBUF_FOUND)
 ELSE (PROTOBUF_FOUND)
@@ -39,29 +39,18 @@ ELSE (QT4_FOUND)
 	MESSAGE(FATAL_ERROR "Could not find QT4")
 ENDIF (QT4_FOUND)
 
-add_subdirectory(common)
-add_subdirectory(client)
-add_subdirectory(server)
+# Now set up install locations; those are set by KDE if integration is enabled
+if(WIN32)
+  set(BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX} CACHE FILEPATH "Install path for binaries")
+  set(DATA_INSTALL_DIR $ENV{APPDATA}/filesync/share/apps CACHE FILEPATH "Install path for data files")
+  set(ICON_INSTALL_DIR $ENV{APPDATA}/filesync/share/icons CACHE FILEPATH "Global icon install path")
+  set(XDG_APPS_INSTALL_DIR $ENV{APPDATA}/filesync/share/applications CACHE FILEPATH "Install path for .desktop files")
+else(WIN32)
+  set(BIN_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/bin CACHE FILEPATH "Install path for binaries")
+  set(DATA_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/apps CACHE FILEPATH "Install path for data files")
+  set(ICON_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/icons CACHE FILEPATH "Global icon install path")
+  set(XDG_APPS_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/share/applications CACHE FILEPATH "Install path for .desktop files")
+endif(WIN32)
 
-set(qtproject_client_SRCS client/main.cpp ) 
-set(qtproject_client__MOC_SRCS client/clientconnection.cpp client/manager.cpp ) 
-set(qtproject_client__MOC_HEADERS client/manager.h client/clientconnection.h)
 
-set(qtproject_common_SRCS common/connection.cpp ) 
-set(qtproject_common__MOC_SRCS common/connection.cpp ) 
-set(qtproject_common__MOC_HEADERS common/connection.h )
-
-
-QT4_WRAP_CPP(qtproject_MOC_SRCS ${qtproject_MOC_HEADERS} ${qtproject_common_MOC_HEADERS})
-
-#SET(qtproject_UIS )
-#QT4_WRAP_UI(qtproject_UIS_H ${qtproject_UIS})
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${QT_INCLUDE_DIR}  ${PROTOBUF_INCLUDE} )
-add_executable(FileShare ${qtproject_client_SRCS} ${qtproject_client_MOC_SRCS} 
-			   ${qtproject_common_SRCS} ${qtproject_common_MOC_SRCS}  ${qtproject_UIS_H} )
-			
-target_link_libraries(FileShare ${QT_LIBRARIES} ${PROTOBUF_LIBRARY} )
-
-#INSTALL(FILES ${install_headers} DESTINATION include/fileshare)
-#INSTALL(TARGETS protorpcpp LIBRARY DESTINATION lib)
+add_subdirectory(src)

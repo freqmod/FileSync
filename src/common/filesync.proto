@@ -2,7 +2,7 @@ option optimize_for = SPEED;
 message Packet {
   optional int32 id = 1;
   optional bool ack = 2;
-  optional int64 extra_data_length = 4;
+  optional uint64 extra_data_length = 4;
 
   optional Connect connect=10;
   optional InitializeClient initclient=11;

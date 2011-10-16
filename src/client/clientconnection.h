@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSslSocket>
+#include "clientconnection.h"
 namespace FileShare {
 class ClientConnection : public QObject
 {
@@ -16,7 +17,8 @@ protected:
 signals:
 
 public slots:
-    void readyRead();
+    virtual void gotPacket(Packet *pkg);
+    virtual void gotExtraData(QByteArray data);
 };
 }
 
