@@ -15,11 +15,13 @@ public:
 protected:
     QByteArray currentBuffer;
     QSslSocket socket;
+
+    void handleConnect(Packet *pkg);
 signals:
 
 public slots:
     virtual void gotPacket(Packet *pkg);
-    virtual void gotExtraData(QByteArray data);
+    virtual void gotExtraData(Packet *pkg, QByteArray data);
 };
 }
 

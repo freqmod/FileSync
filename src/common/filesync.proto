@@ -2,7 +2,7 @@ option optimize_for = SPEED;
 package FileShare;
 message Packet {
   optional int32 id = 1;
-  optional bool ack = 2;
+  optional int32 ack_id = 2;
   optional uint64 extra_data_length = 4;
 
   optional Connect connect=10;
@@ -23,6 +23,7 @@ message Connect{
 
 message InitializeClient{
   optional bytes client_id = 1;
+  optional bool connection_succeeded = 2;
 }
 
 message Change{

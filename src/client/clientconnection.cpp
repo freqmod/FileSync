@@ -7,7 +7,7 @@ ClientConnection::ClientConnection(QObject *parent) :
 void ClientConnection::gotPacket(Packet *pkg){
 
 }
-void ClientConnection::gotExtraData(QByteArray data){
+void ClientConnection::gotExtraData(Packet *pkg, QByteArray data){
 }
 
 }

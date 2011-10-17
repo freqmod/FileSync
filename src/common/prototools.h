@@ -20,7 +20,7 @@
 #include <google/protobuf/descriptor.h>
 
 QByteArray serializeToByteArray(google::protobuf::Message *msg);
-inline void parseFromByteArray(google::protobuf::Message *msg,QByteArray ary){
+inline void parseFromByteArray(google::protobuf::Message *msg, QByteArray ary){
   msg->ParseFromArray(ary.constData(),ary.size());
 }
 QByteArray bytewiseXOR(QByteArray a1,QByteArray a2);
